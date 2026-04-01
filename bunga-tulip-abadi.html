@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special for You My Baby Girl</title>
+    <style>
+        /* --- CSS STYLING --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fffafa; /* Warna putih kemerahan sangat soft */
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #4a4a4a;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards;
+        }
+
+        p {
+            font-size: 1.1rem;
+            opacity: 0;
+            animation: fadeIn 2s ease-out 1s forwards;
+            color: #888;
+        }
+
+        /* --- ANIMASI TULIP --- */
+        :root {
+            --tulip-color: #ff6b6b; /* Warna default merah tulip */
+            --stem-color: #2d6a4f;
+        }
+
+        .tulip-wrapper {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 250px;
+        }
+
+        .tulip {
+            position: relative;
+            transform-origin: bottom center;
+            animation: sway 3s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .tulip:hover {
+            transform: scale(1.05);
+        }
+
+        /* Kelopak Bunga */
+        .flower {
+            position: relative;
+            width: 50px;
+            height: 60px;
+            z-index: 2;
+        }
+
+        .petal {
+            position: absolute;
+            background: var(--tulip-color);
+            border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%;
+            box-shadow: inset 2px 2px 10px rgba(0,0,0,0.1);
+            transition: background 0.5s ease;
+        }
+
+        .petal.middle {
+            width: 42px;
+            height: 55px;
+            left: 4px;
+            z-index: 2;
+        }
+
+        .petal.left {
+            width: 35px;
+            height: 50px;
+            left: -12px;
+            transform: rotate(-25deg);
+            filter: brightness(0.9);
+        }
+
+        .petal.right {
+            width: 35px;
+            height: 50px;
+            right: -12px;
+            transform: rotate(25deg);
+            filter: brightness(0.9);
+        }
+
+        /* Batang dan Daun */
+        .stem {
+            width: 6px;
+            height: 140px;
+            background: var(--stem-color);
+            margin: -5px auto 0;
+            border-radius: 3px;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 35px;
+            height: 70px;
+            background: var(--stem-color);
+            border-radius: 0 100% 0 100%;
+            bottom: 50px;
+            left: -28px;
+            transform: rotate(-15deg);
+        }
+
+        /* Keyframes Animasi */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        /* Efek Partikel Hati Sederhana */
+        .heart {
+            position: absolute;
+            color: #ffb7b7;
+            font-size: 15px;
+            user-select: none;
+            pointer-events: none;
+            animation: fly 3s linear forwards;
+        }
+
+        @keyframes fly {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Buat kamu...</h1>
+        <p>Bunga tulip ini nggak akan pernah layu.</p>
+
+        <div class="tulip-wrapper">
+            <div class="tulip" id="tulipClick">
+                <div class="flower">
+                    <div class="petal middle"></div>
+                    <div class="petal left"></div>
+                    <div class="petal right"></div>
+                </div>
+                <div class="stem"></div>
+                <div class="leaf"></div>
+            </div>
+        </div>
+        
+        <p style="margin-top: 20px; font-size: 0.8rem; color: #ccc;">(Coba klik bunganya)</p>
+    </div>
+
+    <script>
+        /* --- JAVASCRIPT LOGIC --- */
+        const tulip = document.getElementById('tulipClick');
+        const colors = ['#ff6b6b', '#fbc2eb', '#ff9a9e', '#f6ad55', '#ed64a6', '#faf089'];
+        let colorIndex = 0;
+
+        tulip.addEventListener('click', (e) => {
+            // 1. Ganti warna tulip
+            colorIndex = (colorIndex + 1) % colors.length;
+            document.documentElement.style.setProperty('--tulip-color', colors[colorIndex]);
+
+            // 2. Efek "Pop" saat diklik
+            tulip.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                tulip.style.transform = 'scale(1)';
+            }, 200);
+
+            // 3. Munculkan partikel hati
+            createHeart(e.clientX, e.clientY);
+        });
+
+        function createHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.className = 'heart';
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
